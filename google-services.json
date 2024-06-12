@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "819912134386",
+    "project_id": "spaceapp-35f1c",
+    "storage_bucket": "spaceapp-35f1c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:819912134386:android:a92fffbb88f21342098a6b",
+        "android_client_info": {
+          "package_name": "com.spaceapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDki7G8Y5Z2URruFgOur_JO1KyMQ6wtwC8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
