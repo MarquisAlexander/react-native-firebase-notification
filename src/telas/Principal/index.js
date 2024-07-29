@@ -26,7 +26,7 @@ export default function Principal({ navigation }) {
 
 	async function pegarToken() {
 		const token = await messaging().getToken();
-		const userId = auth.currentUser.uid
+		const userId = auth.currentUser.uid;
 		await salvarToken({ userId: userId, token: token });
 		console.log(token);
 	}
@@ -37,6 +37,12 @@ export default function Principal({ navigation }) {
 		pegarToken();
 		messaging().onMessage(async (mensagem) => {
 			console.log(mensagem);
+			setNotifications(() => [...notifications, mensagem.notification]);
+		});
+
+		messaging().setBackgroundMessageHandler(async (mensagem) => {
+			console.log("Mensagem em background", mensagem);
+			setNotifications(() => [...notifications, mensagem.notification]);
 		});
 	}, []);
 
