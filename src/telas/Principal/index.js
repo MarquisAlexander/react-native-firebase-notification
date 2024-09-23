@@ -1,49 +1,20 @@
 import { View, ScrollView } from "react-native";
 import { useEffect, useState } from "react";
-import messaging from "@react-native-firebase/messaging";
 import { Cabecalho } from "../../componentes/Cabecalho";
 import { CartaoInfo } from "../../componentes/CartaoInfo";
 import { NovoPostBotao } from "../../componentes/NovoPostBotao";
 import { pegarPostsTempoReal, salvarDados } from "../../servicos/firestore";
 import estilos from "./estilos";
 import { logout } from "../../servicos/auth";
-import { auth } from "../../config/firebase";
+import { iniciarNotificacao } from "../../servicos/notification";
 
 export default function Principal({ navigation }) {
 	const [posts, setPosts] = useState([]);
 	const [notifications, setNotifications] = useState([]);
 
-	async function requestUserPermission() {
-		const authStatus = await messaging().requestPermission();
-		const enabled =
-			authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-			authStatus === messaging.AuthorizationStatus.PROVISIONAL;
-
-		if (enabled) {
-			console.log("Authorization status:", authStatus);
-		}
-	}
-
-	async function pegarToken() {
-		const token = await messaging().getToken();
-		const userId = auth.currentUser.uid;
-		await salvarDados("tokens", { userId: userId, token: token });
-		console.log(token);
-	}
-
 	useEffect(() => {
 		pegarPostsTempoReal(setPosts);
-		requestUserPermission();
-		pegarToken();
-		messaging().onMessage(async (mensagem) => {
-			console.log(mensagem);
-			setNotifications(() => [...notifications, mensagem.notification]);
-		});
-
-		messaging().setBackgroundMessageHandler(async (mensagem) => {
-			console.log("Mensagem em background", mensagem);
-			setNotifications(() => [...notifications, mensagem.notification]);
-		});
+		iniciarNotificacao(setNotifications);
 	}, []);
 
 	function mostrarNotificacoes() {
